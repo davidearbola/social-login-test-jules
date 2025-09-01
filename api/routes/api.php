@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PasswordResetController;
 use App\Http\Controllers\Api\EmailVerificationController;
+use App\Http\Controllers\Api\SocialiteController;
 
 // Rotte Pubbliche
 Route::post('/register', [AuthController::class, 'register']);
@@ -31,3 +32,7 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
 // Aggiungi questa nuova rotta per il reinvio pubblico
 Route::post('/resend-verification-email', [EmailVerificationController::class, 'publicResend'])
     ->middleware('throttle:6,1'); // Limita a 6 richieste al minuto per IP per sicurezza
+
+// Rotte per il Social Login
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirectToProvider']);
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
