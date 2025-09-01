@@ -99,6 +99,17 @@ const handleLogin = async (values, { resetForm }) => {
               <span v-else>Accedi</span>
             </button>
           </Form>
+
+          <div class="d-flex align-items-center my-3">
+            <hr class="flex-grow-1" />
+            <span class="px-2 text-muted">oppure</span>
+            <hr class="flex-grow-1" />
+          </div>
+
+          <button @click="authStore.redirectToGoogle()" class="btn btn-light w-100 border">
+            <img src="https://img.icons8.com/color/16/000000/google-logo.png" class="me-2" />
+            Accedi con Google
+          </button>
         </div>
       </div>
     </div>

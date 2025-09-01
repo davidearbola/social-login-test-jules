@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', {
           success: true,
           message: 'Logout effettuato con successo!',
         }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           message: 'Impossibile effettuare il logout. Riprova.',
@@ -125,7 +125,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axios.post('/api/resend-verification-email', { email })
         return response.data
-      } catch (error) {
+      } catch {
         return {
           success: false,
           message: 'Si è verificato un errore improvviso. Riprova.',
@@ -139,11 +139,25 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axios.post('/api/email/verification-notification')
         return response.data
-      } catch (error) {
-        throw error
       } finally {
         this.isLoading = false
       }
+    },
+
+    async redirectToGoogle() {
+      this.isLoading = true;
+      try {
+        window.location.href = '/api/auth/google/redirect';
+      } catch (error) {
+        this.isLoading = false;
+        console.error("Error redirecting to Google:", error);
+      }
+    },
+
+    async handleGoogleLogin() {
+      this.isLoading = true;
+      await this.getUser();
+      this.isLoading = false;
     },
   },
 })

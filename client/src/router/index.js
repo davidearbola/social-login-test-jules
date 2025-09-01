@@ -46,6 +46,19 @@ const router = createRouter({
       name: 'resend-verification',
       component: () => import('../views/Auth/ResendVerificationView.vue'),
     },
+    {
+      path: '/dashboard-social',
+      name: 'dashboard-social',
+      beforeEnter: async (to, from, next) => {
+        const authStore = useAuthStore();
+        await authStore.handleGoogleLogin();
+        if (authStore.isAuthenticated) {
+          next({ name: 'dashboard' });
+        } else {
+          next({ name: 'login' });
+        }
+      },
+    },
   ],
 })
 
